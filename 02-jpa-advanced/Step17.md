@@ -102,25 +102,24 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.repository.CourseRepository;
+import repository.com.huudan.jpa.hibernate.demo.CourseRepository;
 
 @SpringBootApplication
-public class DemoApplication implements CommandLineRunner{
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	private CourseRepository repository;
+public class DemoApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Override
-	public void run(String... arg0) throws Exception {
-		repository.playWithEntityManager();
-	}	
+    @Autowired
+    private CourseRepository repository;
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+    @Override
+    public void run(String... arg0) throws Exception {
+        repository.playWithEntityManager();
+    }
 }
 ```
 ---
@@ -185,43 +184,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 @Repository
 @Transactional
 public class CourseRepository {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	EntityManager em;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public Course findById(Long id) {
-		return em.find(Course.class, id);
-	}
+    @Autowired
+    EntityManager em;
 
-	public Course save(Course course) {
+    public Course findById(Long id) {
+        return em.find(Course.class, id);
+    }
 
-		if (course.getId() == null) {
-			em.persist(course);
-		} else {
-			em.merge(course);
-		}
+    public Course save(Course course) {
 
-		return course;
-	}
+        if (course.getId() == null) {
+            em.persist(course);
+        } else {
+            em.merge(course);
+        }
 
-	public void deleteById(Long id) {
-		Course course = findById(id);
-		em.remove(course);
-	}
+        return course;
+    }
 
-	public void playWithEntityManager() {
-		Course course1 = new Course("Web Services in 100 Steps");
-		em.persist(course1);
+    public void deleteById(Long id) {
+        Course course = findById(id);
+        em.remove(course);
+    }
 
-		course1.setName(null);
-	}
+    public void playWithEntityManager() {
+        Course course1 = new Course("Web Services in 100 Steps");
+        em.persist(course1);
+
+        course1.setName(null);
+    }
 }
 ```
 ---
@@ -284,6 +283,7 @@ package com.in28minutes.jpa.hibernate.demo.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import com.huudan.jpa.hibernate.demo.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -293,8 +293,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -302,46 +302,46 @@ import com.in28minutes.jpa.hibernate.demo.entity.Course;
 @SpringBootTest(classes = DemoApplication.class)
 public class CourseRepositoryTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	CourseRepository repository;
+    @Autowired
+    CourseRepository repository;
 
-	@Test
-	public void findById_basic() {
-		Course course = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps", course.getName());
-	}
+    @Test
+    public void findById_basic() {
+        Course course = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps", course.getName());
+    }
 
-	@Test
-	@DirtiesContext
-	public void deleteById_basic() {
-		repository.deleteById(10002L);
-		assertNull(repository.findById(10002L));
-	}
+    @Test
+    @DirtiesContext
+    public void deleteById_basic() {
+        repository.deleteById(10002L);
+        assertNull(repository.findById(10002L));
+    }
 
-	@Test
-	@DirtiesContext
-	public void save_basic() {
+    @Test
+    @DirtiesContext
+    public void save_basic() {
 
-		// get a course
-		Course course = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps", course.getName());
+        // get a course
+        Course course = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps", course.getName());
 
-		// update details
-		course.setName("JPA in 50 Steps - Updated");
-		repository.save(course);
+        // update details
+        course.setName("JPA in 50 Steps - Updated");
+        repository.save(course);
 
-		// check the value
-		Course course1 = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps - Updated", course1.getName());
-	}
+        // check the value
+        Course course1 = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps - Updated", course1.getName());
+    }
 
-	@Test
-	@DirtiesContext
-	public void playWithEntityManager() {
-		repository.playWithEntityManager();
-	}
+    @Test
+    @DirtiesContext
+    public void playWithEntityManager() {
+        repository.playWithEntityManager();
+    }
 
 }
 ```
@@ -366,8 +366,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -375,38 +375,38 @@ import com.in28minutes.jpa.hibernate.demo.entity.Course;
 @SpringBootTest(classes = DemoApplication.class)
 public class JPQLTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	EntityManager em;
+    @Autowired
+    EntityManager em;
 
-	@Test
-	public void jpql_basic() {
-		Query query = em.createQuery("Select  c  From Course c");
-		List resultList = query.getResultList();
-		logger.info("Select  c  From Course c -> {}",resultList);
-	}
+    @Test
+    public void jpql_basic() {
+        Query query = em.createQuery("Select  c  From Course c");
+        List resultList = query.getResultList();
+        logger.info("Select  c  From Course c -> {}", resultList);
+    }
 
-	@Test
-	public void jpql_typed() {
-		TypedQuery<Course> query = 
-					em.createQuery("Select  c  From Course c", Course.class);
-		
-		List<Course> resultList = query.getResultList();
-		
-		logger.info("Select  c  From Course c -> {}",resultList);
-	}
+    @Test
+    public void jpql_typed() {
+        TypedQuery<Course> query =
+                em.createQuery("Select  c  From Course c", Course.class);
 
-	@Test
-	public void jpql_where() {
-		TypedQuery<Course> query = 
-					em.createQuery("Select  c  From Course c where name like '%100 Steps'", Course.class);
-		
-		List<Course> resultList = query.getResultList();
-		
-		logger.info("Select  c  From Course c where name like '%100 Steps'-> {}",resultList);
-		//[Course[Web Services in 100 Steps], Course[Spring Boot in 100 Steps]]
-	}
+        List<Course> resultList = query.getResultList();
+
+        logger.info("Select  c  From Course c -> {}", resultList);
+    }
+
+    @Test
+    public void jpql_where() {
+        TypedQuery<Course> query =
+                em.createQuery("Select  c  From Course c where name like '%100 Steps'", Course.class);
+
+        List<Course> resultList = query.getResultList();
+
+        logger.info("Select  c  From Course c where name like '%100 Steps'-> {}", resultList);
+        //[Course[Web Services in 100 Steps], Course[Spring Boot in 100 Steps]]
+    }
 
 }
 ```

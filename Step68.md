@@ -817,7 +817,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.in28minutes.database.databasedemo.entity.Person;
+import entity.com.huudan.database.databasedemo.Person;
 
 @Repository
 public class PersonJbdcDao {
@@ -881,7 +881,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
-import com.in28minutes.database.databasedemo.entity.Person;
+import entity.com.huudan.database.databasedemo.Person;
 
 @Repository
 @Transactional
@@ -931,8 +931,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.database.databasedemo.entity.Person;
-import com.in28minutes.database.databasedemo.jpa.PersonJpaRepository;
+import entity.com.huudan.database.databasedemo.Person;
+import jpa.com.huudan.database.databasedemo.PersonJpaRepository;
 
 @SpringBootApplication
 public class JpaDemoApplication implements CommandLineRunner {
@@ -979,8 +979,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.database.databasedemo.entity.Person;
-import com.in28minutes.database.databasedemo.jdbc.PersonJbdcDao;
+import entity.com.huudan.database.databasedemo.Person;
+import jdbc.com.huudan.database.databasedemo.PersonJbdcDao;
 
 //@SpringBootApplication
 public class SpringJdbcDemoApplication implements CommandLineRunner {
@@ -1189,11 +1189,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.jpa.hibernate.demo.entity.FullTimeEmployee;
-import com.in28minutes.jpa.hibernate.demo.entity.PartTimeEmployee;
-import com.in28minutes.jpa.hibernate.demo.repository.CourseRepository;
-import com.in28minutes.jpa.hibernate.demo.repository.EmployeeRepository;
-import com.in28minutes.jpa.hibernate.demo.repository.StudentRepository;
+import entity.com.huudan.jpa.hibernate.demo.FullTimeEmployee;
+import entity.com.huudan.jpa.hibernate.demo.PartTimeEmployee;
+import repository.com.huudan.jpa.hibernate.demo.CourseRepository;
+import repository.com.huudan.jpa.hibernate.demo.EmployeeRepository;
+import repository.com.huudan.jpa.hibernate.demo.StudentRepository;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -1665,8 +1665,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.entity.Review;
+import entity.com.huudan.jpa.hibernate.demo.Course;
+import entity.com.huudan.jpa.hibernate.demo.Review;
 
 @Repository
 @Transactional
@@ -1750,7 +1750,7 @@ package com.in28minutes.jpa.hibernate.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 public interface CourseSpringDataRepository extends JpaRepository<Course, Long> {
 
@@ -1773,9 +1773,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Employee;
-import com.in28minutes.jpa.hibernate.demo.entity.FullTimeEmployee;
-import com.in28minutes.jpa.hibernate.demo.entity.PartTimeEmployee;
+import entity.com.huudan.jpa.hibernate.demo.Employee;
+import entity.com.huudan.jpa.hibernate.demo.FullTimeEmployee;
+import entity.com.huudan.jpa.hibernate.demo.PartTimeEmployee;
 
 @Repository
 @Transactional
@@ -1815,9 +1815,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.entity.Passport;
-import com.in28minutes.jpa.hibernate.demo.entity.Student;
+import entity.com.huudan.jpa.hibernate.demo.Course;
+import entity.com.huudan.jpa.hibernate.demo.Passport;
+import entity.com.huudan.jpa.hibernate.demo.Student;
 
 @Repository
 @Transactional
@@ -2024,10 +2024,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.entity.Review;
-import com.in28minutes.jpa.hibernate.demo.entity.Student;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
+import entity.com.huudan.jpa.hibernate.demo.Review;
+import entity.com.huudan.jpa.hibernate.demo.Student;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
@@ -2148,8 +2148,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
@@ -2226,8 +2226,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
@@ -2395,9 +2395,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.entity.Student;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
+import entity.com.huudan.jpa.hibernate.demo.Student;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
@@ -2536,8 +2536,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
@@ -2604,9 +2604,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Passport;
-import com.in28minutes.jpa.hibernate.demo.entity.Student;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Passport;
+import entity.com.huudan.jpa.hibernate.demo.Student;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)

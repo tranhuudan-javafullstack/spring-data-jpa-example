@@ -102,30 +102,30 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.repository.CourseRepository;
+import entity.com.huudan.jpa.hibernate.demo.Course;
+import repository.com.huudan.jpa.hibernate.demo.CourseRepository;
 
 @SpringBootApplication
-public class DemoApplication implements CommandLineRunner{
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	private CourseRepository repository;
+public class DemoApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Override
-	public void run(String... arg0) throws Exception {
-		Course course = repository.findById(10001L);
-		
-		logger.info("Course 10001 -> {}", course);
-		
-		repository.deleteById(10001L);
-		
-	}
+    @Autowired
+    private CourseRepository repository;
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+    @Override
+    public void run(String... arg0) throws Exception {
+        Course course = repository.findById(10001L);
+
+        logger.info("Course 10001 -> {}", course);
+
+        repository.deleteById(10001L);
+
+    }
 }
 ```
 ---
@@ -189,25 +189,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 @Repository
 @Transactional
-public class CourseRepository {	
-	
-	@Autowired
-	EntityManager em;
-	
-	public Course findById(Long id){
-		return em.find(Course.class, id);
-	}
-	
-	//public Course save(Course course) -> insert or update
-	
-	public void deleteById(Long id){
-		Course course = findById(id);
-		em.remove(course);
-	}
+public class CourseRepository {
+
+    @Autowired
+    EntityManager em;
+
+    public Course findById(Long id) {
+        return em.find(Course.class, id);
+    }
+
+    //public Course save(Course course) -> insert or update
+
+    public void deleteById(Long id) {
+        Course course = findById(id);
+        em.remove(course);
+    }
 
 }
 ```
@@ -270,6 +270,7 @@ package com.in28minutes.jpa.hibernate.demo.repository;
 
 import static org.junit.Assert.*;
 
+import com.huudan.jpa.hibernate.demo.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -278,25 +279,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes=DemoApplication.class)
+@SpringBootTest(classes = DemoApplication.class)
 public class CourseRepositoryTest {
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	CourseRepository repository;
-	
-	@Test
-	public void findById_basic() {
-		Course course = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps", course.getName());
-	}
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    CourseRepository repository;
+
+    @Test
+    public void findById_basic() {
+        Course course = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps", course.getName());
+    }
 
 }
 ```

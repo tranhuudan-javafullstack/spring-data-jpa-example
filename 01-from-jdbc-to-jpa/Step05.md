@@ -181,17 +181,17 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.in28minutes.database.databasedemo.entity.Person;
+import entity.com.huudan.database.databasedemo.Person;
 
 @Repository
 public class PersonJbdcDao {
-	@Autowired
-	JdbcTemplate jdbcTemplate;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
-	public List<Person> findAll() {
-		return jdbcTemplate.query("select * from person", 
-				new BeanPropertyRowMapper(Person.class));
-	}
+    public List<Person> findAll() {
+        return jdbcTemplate.query("select * from person",
+                new BeanPropertyRowMapper(Person.class));
+    }
 }
 ```
 ---

@@ -103,28 +103,28 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.repository.CourseRepository;
+import entity.com.huudan.jpa.hibernate.demo.Course;
+import repository.com.huudan.jpa.hibernate.demo.CourseRepository;
 
 @SpringBootApplication
-public class DemoApplication implements CommandLineRunner{
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	private CourseRepository repository;
+public class DemoApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Override
-	public void run(String... arg0) throws Exception {
-		Course course = repository.findById(10001L);
-		
-		logger.info("Course 10001 -> {}", course);
-		
-	}
+    @Autowired
+    private CourseRepository repository;
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+    @Override
+    public void run(String... arg0) throws Exception {
+        Course course = repository.findById(10001L);
+
+        logger.info("Course 10001 -> {}", course);
+
+    }
 }
 ```
 ---
@@ -187,21 +187,21 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 @Repository
-public class CourseRepository {	
-	
-	@Autowired
-	EntityManager em;
-	
-	public Course findById(Long id){
-		return em.find(Course.class, id);
-	}
-	
-	//public Course save(Course course) -> insert or update
-	
-	//public void deleteById(Long id)
+public class CourseRepository {
+
+    @Autowired
+    EntityManager em;
+
+    public Course findById(Long id) {
+        return em.find(Course.class, id);
+    }
+
+    //public Course save(Course course) -> insert or update
+
+    //public void deleteById(Long id)
 
 }
 ```

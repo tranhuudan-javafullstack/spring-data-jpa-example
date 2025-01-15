@@ -103,25 +103,24 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.repository.CourseRepository;
+import repository.com.huudan.jpa.hibernate.demo.CourseRepository;
 
 @SpringBootApplication
-public class DemoApplication implements CommandLineRunner{
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	private CourseRepository repository;
+public class DemoApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Override
-	public void run(String... arg0) throws Exception {
-		//repository.playWithEntityManager();
-	}	
+    @Autowired
+    private CourseRepository repository;
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+    @Override
+    public void run(String... arg0) throws Exception {
+        //repository.playWithEntityManager();
+    }
 }
 ```
 ---
@@ -301,6 +300,7 @@ public class Review {
 ```java
 package com.in28minutes.jpa.hibernate.demo.entity;
 
+import com.huudan.jpa.hibernate.demo.entity.Passport;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -310,39 +310,39 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Student {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	@Column(nullable = false)
-	private String name;
-	
-	@OneToOne
-	private Passport passport;
+    @Column(nullable = false)
+    private String name;
 
-	protected Student() {
-	}
+    @OneToOne
+    private Passport passport;
 
-	public Student(String name) {
-		this.name = name;
-	}
+    protected Student() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Student(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("Student[%s]", name);
-	}
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Student[%s]", name);
+    }
 }
 ```
 ---
@@ -360,46 +360,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 @Repository
 @Transactional
 public class CourseRepository {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	EntityManager em;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public Course findById(Long id) {
-		return em.find(Course.class, id);
-	}
+    @Autowired
+    EntityManager em;
 
-	public Course save(Course course) {
+    public Course findById(Long id) {
+        return em.find(Course.class, id);
+    }
 
-		if (course.getId() == null) {
-			em.persist(course);
-		} else {
-			em.merge(course);
-		}
+    public Course save(Course course) {
 
-		return course;
-	}
+        if (course.getId() == null) {
+            em.persist(course);
+        } else {
+            em.merge(course);
+        }
 
-	public void deleteById(Long id) {
-		Course course = findById(id);
-		em.remove(course);
-	}
+        return course;
+    }
 
-	public void playWithEntityManager() {
-		Course course1 = new Course("Web Services in 100 Steps");
-		em.persist(course1);
-		
-		Course course2 = findById(10001L);
-		
-		course2.setName("JPA in 50 Steps - Updated");
-		
-	}
+    public void deleteById(Long id) {
+        Course course = findById(id);
+        em.remove(course);
+    }
+
+    public void playWithEntityManager() {
+        Course course1 = new Course("Web Services in 100 Steps");
+        em.persist(course1);
+
+        Course course2 = findById(10001L);
+
+        course2.setName("JPA in 50 Steps - Updated");
+
+    }
 }
 ```
 ---
@@ -486,6 +486,7 @@ package com.in28minutes.jpa.hibernate.demo.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import com.huudan.jpa.hibernate.demo.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -495,8 +496,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -504,46 +505,46 @@ import com.in28minutes.jpa.hibernate.demo.entity.Course;
 @SpringBootTest(classes = DemoApplication.class)
 public class CourseRepositoryTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	CourseRepository repository;
+    @Autowired
+    CourseRepository repository;
 
-	@Test
-	public void findById_basic() {
-		Course course = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps", course.getName());
-	}
+    @Test
+    public void findById_basic() {
+        Course course = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps", course.getName());
+    }
 
-	@Test
-	@DirtiesContext
-	public void deleteById_basic() {
-		repository.deleteById(10002L);
-		assertNull(repository.findById(10002L));
-	}
+    @Test
+    @DirtiesContext
+    public void deleteById_basic() {
+        repository.deleteById(10002L);
+        assertNull(repository.findById(10002L));
+    }
 
-	@Test
-	@DirtiesContext
-	public void save_basic() {
+    @Test
+    @DirtiesContext
+    public void save_basic() {
 
-		// get a course
-		Course course = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps", course.getName());
+        // get a course
+        Course course = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps", course.getName());
 
-		// update details
-		course.setName("JPA in 50 Steps - Updated");
-		repository.save(course);
+        // update details
+        course.setName("JPA in 50 Steps - Updated");
+        repository.save(course);
 
-		// check the value
-		Course course1 = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps - Updated", course1.getName());
-	}
+        // check the value
+        Course course1 = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps - Updated", course1.getName());
+    }
 
-	@Test
-	@DirtiesContext
-	public void playWithEntityManager() {
-		repository.playWithEntityManager();
-	}
+    @Test
+    @DirtiesContext
+    public void playWithEntityManager() {
+        repository.playWithEntityManager();
+    }
 
 }
 ```
@@ -568,8 +569,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -577,36 +578,36 @@ import com.in28minutes.jpa.hibernate.demo.entity.Course;
 @SpringBootTest(classes = DemoApplication.class)
 public class JPQLTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	EntityManager em;
+    @Autowired
+    EntityManager em;
 
-	@Test
-	public void jpql_basic() {
-		Query query = em.createNamedQuery("query_get_all_courses");
-		List resultList = query.getResultList();
-		logger.info("Select  c  From Course c -> {}", resultList);
-	}
+    @Test
+    public void jpql_basic() {
+        Query query = em.createNamedQuery("query_get_all_courses");
+        List resultList = query.getResultList();
+        logger.info("Select  c  From Course c -> {}", resultList);
+    }
 
-	@Test
-	public void jpql_typed() {
-		TypedQuery<Course> query = em.createNamedQuery("query_get_all_courses", Course.class);
+    @Test
+    public void jpql_typed() {
+        TypedQuery<Course> query = em.createNamedQuery("query_get_all_courses", Course.class);
 
-		List<Course> resultList = query.getResultList();
+        List<Course> resultList = query.getResultList();
 
-		logger.info("Select  c  From Course c -> {}", resultList);
-	}
+        logger.info("Select  c  From Course c -> {}", resultList);
+    }
 
-	@Test
-	public void jpql_where() {
-		TypedQuery<Course> query = em.createNamedQuery("query_get_100_Step_courses", Course.class);
+    @Test
+    public void jpql_where() {
+        TypedQuery<Course> query = em.createNamedQuery("query_get_100_Step_courses", Course.class);
 
-		List<Course> resultList = query.getResultList();
+        List<Course> resultList = query.getResultList();
 
-		logger.info("Select  c  From Course c where name like '%100 Steps'-> {}", resultList);
-		// [Course[Web Services in 100 Steps], Course[Spring Boot in 100 Steps]]
-	}
+        logger.info("Select  c  From Course c where name like '%100 Steps'-> {}", resultList);
+        // [Course[Web Services in 100 Steps], Course[Spring Boot in 100 Steps]]
+    }
 
 }
 ```
@@ -621,7 +622,6 @@ import java.util.List;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -632,8 +632,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -642,45 +642,45 @@ import com.in28minutes.jpa.hibernate.demo.entity.Course;
 @SpringBootTest(classes = DemoApplication.class)
 public class NativeQueriesTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	EntityManager em;
+    @Autowired
+    EntityManager em;
 
-	@Test
-	public void native_queries_basic() {
-		Query query = em.createNativeQuery("SELECT * FROM COURSE", Course.class);
-		List resultList = query.getResultList();
-		logger.info("SELECT * FROM COURSE  -> {}", resultList);
-		//SELECT * FROM COURSE  -> [Course[Web Services in 100 Steps], Course[JPA in 50 Steps - Updated], Course[Spring in 50 Steps], Course[Spring Boot in 100 Steps]]
-	}
+    @Test
+    public void native_queries_basic() {
+        Query query = em.createNativeQuery("SELECT * FROM COURSE", Course.class);
+        List resultList = query.getResultList();
+        logger.info("SELECT * FROM COURSE  -> {}", resultList);
+        //SELECT * FROM COURSE  -> [Course[Web Services in 100 Steps], Course[JPA in 50 Steps - Updated], Course[Spring in 50 Steps], Course[Spring Boot in 100 Steps]]
+    }
 
-	@Test
-	public void native_queries_with_parameter() {
-		Query query = em.createNativeQuery("SELECT * FROM COURSE where id = ?", Course.class);
-		query.setParameter(1, 10001L);
-		List resultList = query.getResultList();
-		logger.info("SELECT * FROM COURSE  where id = ? -> {}", resultList);
-		//[Course[JPA in 50 Steps - Updated]]
-	}
+    @Test
+    public void native_queries_with_parameter() {
+        Query query = em.createNativeQuery("SELECT * FROM COURSE where id = ?", Course.class);
+        query.setParameter(1, 10001L);
+        List resultList = query.getResultList();
+        logger.info("SELECT * FROM COURSE  where id = ? -> {}", resultList);
+        //[Course[JPA in 50 Steps - Updated]]
+    }
 
-	@Test
-	public void native_queries_with_named_parameter() {
-		Query query = em.createNativeQuery("SELECT * FROM COURSE where id = :id", Course.class);
-		query.setParameter("id", 10001L);
-		List resultList = query.getResultList();
-		logger.info("SELECT * FROM COURSE  where id = :id -> {}", resultList);
-		//[Course[JPA in 50 Steps - Updated]]
-	}
-	
-	@Test
-	@Transactional
-	public void native_queries_to_update() {
-		Query query = em.createNativeQuery("Update COURSE set last_updated_date=sysdate()");
-		int noOfRowsUpdated = query.executeUpdate();
-		logger.info("noOfRowsUpdated  -> {}", noOfRowsUpdated);
-		//SELECT * FROM COURSE  -> [Course[Web Services in 100 Steps], Course[JPA in 50 Steps - Updated], Course[Spring in 50 Steps], Course[Spring Boot in 100 Steps]]
-	}
+    @Test
+    public void native_queries_with_named_parameter() {
+        Query query = em.createNativeQuery("SELECT * FROM COURSE where id = :id", Course.class);
+        query.setParameter("id", 10001L);
+        List resultList = query.getResultList();
+        logger.info("SELECT * FROM COURSE  where id = :id -> {}", resultList);
+        //[Course[JPA in 50 Steps - Updated]]
+    }
+
+    @Test
+    @Transactional
+    public void native_queries_to_update() {
+        Query query = em.createNativeQuery("Update COURSE set last_updated_date=sysdate()");
+        int noOfRowsUpdated = query.executeUpdate();
+        logger.info("noOfRowsUpdated  -> {}", noOfRowsUpdated);
+        //SELECT * FROM COURSE  -> [Course[Web Services in 100 Steps], Course[JPA in 50 Steps - Updated], Course[Spring in 50 Steps], Course[Spring Boot in 100 Steps]]
+    }
 
 
 }

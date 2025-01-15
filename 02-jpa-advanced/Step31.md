@@ -103,31 +103,31 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.jpa.hibernate.demo.repository.CourseRepository;
-import com.in28minutes.jpa.hibernate.demo.repository.StudentRepository;
+import repository.com.huudan.jpa.hibernate.demo.CourseRepository;
+import repository.com.huudan.jpa.hibernate.demo.StudentRepository;
 
 @SpringBootApplication
-public class DemoApplication implements CommandLineRunner{
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	private CourseRepository courseRepository;
+public class DemoApplication implements CommandLineRunner {
 
-	@Autowired
-	private StudentRepository studentRepository;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    @Autowired
+    private CourseRepository courseRepository;
 
-	@Override
-	public void run(String... arg0) throws Exception {
-		//studentRepository.saveStudentWithPassport();
-		//repository.playWithEntityManager();
-		courseRepository.addReviewsForCourse();
-		
-	}	
+    @Autowired
+    private StudentRepository studentRepository;
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+    @Override
+    public void run(String... arg0) throws Exception {
+        //studentRepository.saveStudentWithPassport();
+        //repository.playWithEntityManager();
+        courseRepository.addReviewsForCourse();
+
+    }
 }
 ```
 ---
@@ -141,6 +141,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.huudan.jpa.hibernate.demo.entity.Review;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -153,66 +154,66 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@NamedQueries(value = { 
-		@NamedQuery(name = "query_get_all_courses", 
-				query = "Select  c  From Course c"),
-		@NamedQuery(name = "query_get_100_Step_courses", 
-		query = "Select  c  From Course c where name like '%100 Steps'") })
+@NamedQueries(value = {
+        @NamedQuery(name = "query_get_all_courses",
+                query = "Select  c  From Course c"),
+        @NamedQuery(name = "query_get_100_Step_courses",
+                query = "Select  c  From Course c where name like '%100 Steps'")})
 
 public class Course {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	@Column(nullable = false)
-	private String name;
+    @Column(nullable = false)
+    private String name;
 
-	@OneToMany(mappedBy="course")
-	private List<Review> reviews = new ArrayList<>();
-	
-	@UpdateTimestamp
-	private LocalDateTime lastUpdatedDate;
+    @OneToMany(mappedBy = "course")
+    private List<Review> reviews = new ArrayList<>();
 
-	@CreationTimestamp
-	private LocalDateTime createdDate;
+    @UpdateTimestamp
+    private LocalDateTime lastUpdatedDate;
 
-	protected Course() {
-	}
+    @CreationTimestamp
+    private LocalDateTime createdDate;
 
-	public Course(String name) {
-		this.name = name;
-	}
+    protected Course() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Course(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	
-	public List<Review> getReviews() {
-		return reviews;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void addReview(Review review) {
-		this.reviews.add(review);
-	}
 
-	public void removeReview(Review review) {
-		this.reviews.remove(review);
-	}
+    public List<Review> getReviews() {
+        return reviews;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void addReview(Review review) {
+        this.reviews.add(review);
+    }
 
-	@Override
-	public String toString() {
-		return String.format("Course[%s]", name);
-	}
+    public void removeReview(Review review) {
+        this.reviews.remove(review);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Course[%s]", name);
+    }
 }
 ```
 ---
@@ -222,6 +223,7 @@ public class Course {
 ```java
 package com.in28minutes.jpa.hibernate.demo.entity;
 
+import com.huudan.jpa.hibernate.demo.entity.Student;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -232,47 +234,47 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Passport {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	@Column(nullable = false)
-	private String number;
-	
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="passport")
-	private Student student;
+    @Column(nullable = false)
+    private String number;
 
-	protected Passport() {
-	}
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "passport")
+    private Student student;
 
-	public Passport(String number) {
-		this.number = number;
-	}
+    protected Passport() {
+    }
 
-	public String getNumber() {
-		return number;
-	}
+    public Passport(String number) {
+        this.number = number;
+    }
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    public String getNumber() {
+        return number;
+    }
 
-	public Student getStudent() {
-		return student;
-	}
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-	public void setStudent(Student student) {
-		this.student = student;
-	}
+    public Student getStudent() {
+        return student;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("Passport[%s]", number);
-	}
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Passport[%s]", number);
+    }
 }
 ```
 ---
@@ -282,6 +284,7 @@ public class Passport {
 ```java
 package com.in28minutes.jpa.hibernate.demo.entity;
 
+import com.huudan.jpa.hibernate.demo.entity.Course;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -290,57 +293,57 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Review {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	private String rating;
+    private String rating;
 
-	private String description;
+    private String description;
 
-	@ManyToOne
-	private Course course;
+    @ManyToOne
+    private Course course;
 
-	protected Review() {
-	}
+    protected Review() {
+    }
 
-	public Review(String rating, String description) {
-		this.rating = rating;
-		this.description = description;
-	}
+    public Review(String rating, String description) {
+        this.rating = rating;
+        this.description = description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getRating() {
-		return rating;
-	}
+    public String getRating() {
+        return rating;
+    }
 
-	public void setRating(String rating) {
-		this.rating = rating;
-	}
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
-	public Course getCourse() {
-		return course;
-	}
+    public Course getCourse() {
+        return course;
+    }
 
-	public void setCourse(Course course) {
-		this.course = course;
-	}
+    public void setCourse(Course course) {
+        this.course = course;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("Review[%s %s]", rating, description);
-	}
+    @Override
+    public String toString() {
+        return String.format("Review[%s %s]", rating, description);
+    }
 
 }
 ```
@@ -351,6 +354,7 @@ public class Review {
 ```java
 package com.in28minutes.jpa.hibernate.demo.entity;
 
+import com.huudan.jpa.hibernate.demo.entity.Passport;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -361,47 +365,47 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Student {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	@Column(nullable = false)
-	private String name;
-	
-	@OneToOne(fetch=FetchType.LAZY)
-	private Passport passport;
+    @Column(nullable = false)
+    private String name;
 
-	protected Student() {
-	}
+    @OneToOne(fetch = FetchType.LAZY)
+    private Passport passport;
 
-	public Student(String name) {
-		this.name = name;
-	}
+    protected Student() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Student(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Passport getPassport() {
-		return passport;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setPassport(Passport passport) {
-		this.passport = passport;
-	}
+    public Passport getPassport() {
+        return passport;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("Student[%s]", name);
-	}
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Student[%s]", name);
+    }
 }
 ```
 ---
@@ -419,68 +423,68 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
-import com.in28minutes.jpa.hibernate.demo.entity.Review;
+import entity.com.huudan.jpa.hibernate.demo.Course;
+import entity.com.huudan.jpa.hibernate.demo.Review;
 
 @Repository
 @Transactional
 public class CourseRepository {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	EntityManager em;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public Course findById(Long id) {
-		return em.find(Course.class, id);
-	}
+    @Autowired
+    EntityManager em;
 
-	public Course save(Course course) {
+    public Course findById(Long id) {
+        return em.find(Course.class, id);
+    }
 
-		if (course.getId() == null) {
-			em.persist(course);
-		} else {
-			em.merge(course);
-		}
+    public Course save(Course course) {
 
-		return course;
-	}
+        if (course.getId() == null) {
+            em.persist(course);
+        } else {
+            em.merge(course);
+        }
 
-	public void deleteById(Long id) {
-		Course course = findById(id);
-		em.remove(course);
-	}
+        return course;
+    }
 
-	public void playWithEntityManager() {
-		Course course1 = new Course("Web Services in 100 Steps");
-		em.persist(course1);
-		
-		Course course2 = findById(10001L);
-		
-		course2.setName("JPA in 50 Steps - Updated");
-		
-	}
+    public void deleteById(Long id) {
+        Course course = findById(id);
+        em.remove(course);
+    }
 
-	public void addReviewsForCourse() {
-		//get the course 10003
-		Course course = findById(10003L);
-		logger.info("course.getReviews() -> {}", course.getReviews());
-		
-		//add 2 reviews to it
-		Review review1 = new Review("5", "Great Hands-on Stuff.");	
-		Review review2 = new Review("5", "Hatsoff.");
-		
-		//setting the relationship
-		course.addReview(review1);
-		review1.setCourse(course);
-		
-		course.addReview(review2);
-		review2.setCourse(course);
-		
-		//save it to the database
-		em.persist(review1);
-		em.persist(review2);
-	}
+    public void playWithEntityManager() {
+        Course course1 = new Course("Web Services in 100 Steps");
+        em.persist(course1);
+
+        Course course2 = findById(10001L);
+
+        course2.setName("JPA in 50 Steps - Updated");
+
+    }
+
+    public void addReviewsForCourse() {
+        //get the course 10003
+        Course course = findById(10003L);
+        logger.info("course.getReviews() -> {}", course.getReviews());
+
+        //add 2 reviews to it
+        Review review1 = new Review("5", "Great Hands-on Stuff.");
+        Review review2 = new Review("5", "Hatsoff.");
+
+        //setting the relationship
+        course.addReview(review1);
+        review1.setCourse(course);
+
+        course.addReview(review2);
+        review2.setCourse(course);
+
+        //save it to the database
+        em.persist(review1);
+        em.persist(review2);
+    }
 }
 ```
 ---
@@ -498,66 +502,66 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Passport;
-import com.in28minutes.jpa.hibernate.demo.entity.Student;
+import entity.com.huudan.jpa.hibernate.demo.Passport;
+import entity.com.huudan.jpa.hibernate.demo.Student;
 
 @Repository
 @Transactional
 public class StudentRepository {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	EntityManager em;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public Student findById(Long id) {
-		return em.find(Student.class, id);
-	}
+    @Autowired
+    EntityManager em;
 
-	public Student save(Student student) {
+    public Student findById(Long id) {
+        return em.find(Student.class, id);
+    }
 
-		if (student.getId() == null) {
-			em.persist(student);
-		} else {
-			em.merge(student);
-		}
+    public Student save(Student student) {
 
-		return student;
-	}
+        if (student.getId() == null) {
+            em.persist(student);
+        } else {
+            em.merge(student);
+        }
 
-	public void deleteById(Long id) {
-		Student student = findById(id);
-		em.remove(student);
-	}
+        return student;
+    }
 
-	public void saveStudentWithPassport() {
-		Passport passport = new Passport("Z123456");
-		em.persist(passport);
+    public void deleteById(Long id) {
+        Student student = findById(id);
+        em.remove(student);
+    }
 
-		Student student = new Student("Mike");
+    public void saveStudentWithPassport() {
+        Passport passport = new Passport("Z123456");
+        em.persist(passport);
 
-		student.setPassport(passport);
-		em.persist(student);	
-	}
-	
-	public void someOperationToUnderstandPersistenceContext() {
-		//Database Operation 1 - Retrieve student
-		Student student = em.find(Student.class, 20001L);
-		//Persistence Context (student)
-		
-		
-		//Database Operation 2 - Retrieve passport
-		Passport passport = student.getPassport();
-		//Persistence Context (student, passport)
+        Student student = new Student("Mike");
 
-		//Database Operation 3 - update passport
-		passport.setNumber("E123457");
-		//Persistence Context (student, passport++)
-		
-		//Database Operation 4 - update student
-		student.setName("Ranga - updated");
-		//Persistence Context (student++ , passport++)
-	}
+        student.setPassport(passport);
+        em.persist(student);
+    }
+
+    public void someOperationToUnderstandPersistenceContext() {
+        //Database Operation 1 - Retrieve student
+        Student student = em.find(Student.class, 20001L);
+        //Persistence Context (student)
+
+
+        //Database Operation 2 - Retrieve passport
+        Passport passport = student.getPassport();
+        //Persistence Context (student, passport)
+
+        //Database Operation 3 - update passport
+        passport.setNumber("E123457");
+        //Persistence Context (student, passport++)
+
+        //Database Operation 4 - update student
+        student.setName("Ranga - updated");
+        //Persistence Context (student++ , passport++)
+    }
 
 }
 ```
@@ -645,6 +649,7 @@ package com.in28minutes.jpa.hibernate.demo.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import com.huudan.jpa.hibernate.demo.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -654,8 +659,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -663,46 +668,46 @@ import com.in28minutes.jpa.hibernate.demo.entity.Course;
 @SpringBootTest(classes = DemoApplication.class)
 public class CourseRepositoryTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	CourseRepository repository;
+    @Autowired
+    CourseRepository repository;
 
-	@Test
-	public void findById_basic() {
-		Course course = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps", course.getName());
-	}
+    @Test
+    public void findById_basic() {
+        Course course = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps", course.getName());
+    }
 
-	@Test
-	@DirtiesContext
-	public void deleteById_basic() {
-		repository.deleteById(10002L);
-		assertNull(repository.findById(10002L));
-	}
+    @Test
+    @DirtiesContext
+    public void deleteById_basic() {
+        repository.deleteById(10002L);
+        assertNull(repository.findById(10002L));
+    }
 
-	@Test
-	@DirtiesContext
-	public void save_basic() {
+    @Test
+    @DirtiesContext
+    public void save_basic() {
 
-		// get a course
-		Course course = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps", course.getName());
+        // get a course
+        Course course = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps", course.getName());
 
-		// update details
-		course.setName("JPA in 50 Steps - Updated");
-		repository.save(course);
+        // update details
+        course.setName("JPA in 50 Steps - Updated");
+        repository.save(course);
 
-		// check the value
-		Course course1 = repository.findById(10001L);
-		assertEquals("JPA in 50 Steps - Updated", course1.getName());
-	}
+        // check the value
+        Course course1 = repository.findById(10001L);
+        assertEquals("JPA in 50 Steps - Updated", course1.getName());
+    }
 
-	@Test
-	@DirtiesContext
-	public void playWithEntityManager() {
-		repository.playWithEntityManager();
-	}
+    @Test
+    @DirtiesContext
+    public void playWithEntityManager() {
+        repository.playWithEntityManager();
+    }
 
 }
 ```
@@ -727,8 +732,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -736,36 +741,36 @@ import com.in28minutes.jpa.hibernate.demo.entity.Course;
 @SpringBootTest(classes = DemoApplication.class)
 public class JPQLTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	EntityManager em;
+    @Autowired
+    EntityManager em;
 
-	@Test
-	public void jpql_basic() {
-		Query query = em.createNamedQuery("query_get_all_courses");
-		List resultList = query.getResultList();
-		logger.info("Select  c  From Course c -> {}", resultList);
-	}
+    @Test
+    public void jpql_basic() {
+        Query query = em.createNamedQuery("query_get_all_courses");
+        List resultList = query.getResultList();
+        logger.info("Select  c  From Course c -> {}", resultList);
+    }
 
-	@Test
-	public void jpql_typed() {
-		TypedQuery<Course> query = em.createNamedQuery("query_get_all_courses", Course.class);
+    @Test
+    public void jpql_typed() {
+        TypedQuery<Course> query = em.createNamedQuery("query_get_all_courses", Course.class);
 
-		List<Course> resultList = query.getResultList();
+        List<Course> resultList = query.getResultList();
 
-		logger.info("Select  c  From Course c -> {}", resultList);
-	}
+        logger.info("Select  c  From Course c -> {}", resultList);
+    }
 
-	@Test
-	public void jpql_where() {
-		TypedQuery<Course> query = em.createNamedQuery("query_get_100_Step_courses", Course.class);
+    @Test
+    public void jpql_where() {
+        TypedQuery<Course> query = em.createNamedQuery("query_get_100_Step_courses", Course.class);
 
-		List<Course> resultList = query.getResultList();
+        List<Course> resultList = query.getResultList();
 
-		logger.info("Select  c  From Course c where name like '%100 Steps'-> {}", resultList);
-		// [Course[Web Services in 100 Steps], Course[Spring Boot in 100 Steps]]
-	}
+        logger.info("Select  c  From Course c where name like '%100 Steps'-> {}", resultList);
+        // [Course[Web Services in 100 Steps], Course[Spring Boot in 100 Steps]]
+    }
 
 }
 ```
@@ -780,7 +785,6 @@ import java.util.List;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -791,8 +795,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Course;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -800,45 +804,45 @@ import com.in28minutes.jpa.hibernate.demo.entity.Course;
 @SpringBootTest(classes = DemoApplication.class)
 public class NativeQueriesTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	EntityManager em;
+    @Autowired
+    EntityManager em;
 
-	@Test
-	public void native_queries_basic() {
-		Query query = em.createNativeQuery("SELECT * FROM COURSE", Course.class);
-		List resultList = query.getResultList();
-		logger.info("SELECT * FROM COURSE  -> {}", resultList);
-		//SELECT * FROM COURSE  -> [Course[Web Services in 100 Steps], Course[JPA in 50 Steps - Updated], Course[Spring in 50 Steps], Course[Spring Boot in 100 Steps]]
-	}
+    @Test
+    public void native_queries_basic() {
+        Query query = em.createNativeQuery("SELECT * FROM COURSE", Course.class);
+        List resultList = query.getResultList();
+        logger.info("SELECT * FROM COURSE  -> {}", resultList);
+        //SELECT * FROM COURSE  -> [Course[Web Services in 100 Steps], Course[JPA in 50 Steps - Updated], Course[Spring in 50 Steps], Course[Spring Boot in 100 Steps]]
+    }
 
-	@Test
-	public void native_queries_with_parameter() {
-		Query query = em.createNativeQuery("SELECT * FROM COURSE where id = ?", Course.class);
-		query.setParameter(1, 10001L);
-		List resultList = query.getResultList();
-		logger.info("SELECT * FROM COURSE  where id = ? -> {}", resultList);
-		//[Course[JPA in 50 Steps - Updated]]
-	}
+    @Test
+    public void native_queries_with_parameter() {
+        Query query = em.createNativeQuery("SELECT * FROM COURSE where id = ?", Course.class);
+        query.setParameter(1, 10001L);
+        List resultList = query.getResultList();
+        logger.info("SELECT * FROM COURSE  where id = ? -> {}", resultList);
+        //[Course[JPA in 50 Steps - Updated]]
+    }
 
-	@Test
-	public void native_queries_with_named_parameter() {
-		Query query = em.createNativeQuery("SELECT * FROM COURSE where id = :id", Course.class);
-		query.setParameter("id", 10001L);
-		List resultList = query.getResultList();
-		logger.info("SELECT * FROM COURSE  where id = :id -> {}", resultList);
-		//[Course[JPA in 50 Steps - Updated]]
-	}
-	
-	@Test
-	@Transactional
-	public void native_queries_to_update() {
-		Query query = em.createNativeQuery("Update COURSE set last_updated_date=sysdate()");
-		int noOfRowsUpdated = query.executeUpdate();
-		logger.info("noOfRowsUpdated  -> {}", noOfRowsUpdated);
-		//SELECT * FROM COURSE  -> [Course[Web Services in 100 Steps], Course[JPA in 50 Steps - Updated], Course[Spring in 50 Steps], Course[Spring Boot in 100 Steps]]
-	}
+    @Test
+    public void native_queries_with_named_parameter() {
+        Query query = em.createNativeQuery("SELECT * FROM COURSE where id = :id", Course.class);
+        query.setParameter("id", 10001L);
+        List resultList = query.getResultList();
+        logger.info("SELECT * FROM COURSE  where id = :id -> {}", resultList);
+        //[Course[JPA in 50 Steps - Updated]]
+    }
+
+    @Test
+    @Transactional
+    public void native_queries_to_update() {
+        Query query = em.createNativeQuery("Update COURSE set last_updated_date=sysdate()");
+        int noOfRowsUpdated = query.executeUpdate();
+        logger.info("noOfRowsUpdated  -> {}", noOfRowsUpdated);
+        //SELECT * FROM COURSE  -> [Course[Web Services in 100 Steps], Course[JPA in 50 Steps - Updated], Course[Spring in 50 Steps], Course[Spring Boot in 100 Steps]]
+    }
 
 
 }
@@ -850,6 +854,7 @@ public class NativeQueriesTest {
 ```java
 package com.in28minutes.jpa.hibernate.demo.repository;
 
+import com.huudan.jpa.hibernate.demo.repository.StudentRepository;
 import jakarta.persistence.EntityManager;
 
 import org.junit.jupiter.api.Test;
@@ -861,9 +866,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in28minutes.jpa.hibernate.demo.DemoApplication;
-import com.in28minutes.jpa.hibernate.demo.entity.Passport;
-import com.in28minutes.jpa.hibernate.demo.entity.Student;
+import com.huudan.jpa.hibernate.demo.DemoApplication;
+import entity.com.huudan.jpa.hibernate.demo.Passport;
+import entity.com.huudan.jpa.hibernate.demo.Student;
 
 // replaced @RunWith with @ExtendWith
 // replaced SpringRunner.class with SpringExtension.class
@@ -871,39 +876,39 @@ import com.in28minutes.jpa.hibernate.demo.entity.Student;
 @SpringBootTest(classes = DemoApplication.class)
 public class StudentRepositoryTest {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	StudentRepository repository;
+    @Autowired
+    StudentRepository repository;
 
-	@Autowired
-	EntityManager em;
+    @Autowired
+    EntityManager em;
 
-	// Session & Session Factory
+    // Session & Session Factory
 
-	// EntityManager & Persistence Context
-	// Transaction
+    // EntityManager & Persistence Context
+    // Transaction
 
-	@Test
-	public void someTest() {
-		repository.someOperationToUnderstandPersistenceContext();
-	}
+    @Test
+    public void someTest() {
+        repository.someOperationToUnderstandPersistenceContext();
+    }
 
-	@Test
-	@Transactional
-	public void retrieveStudentAndPassportDetails() {
-		Student student = em.find(Student.class, 20001L);
-		logger.info("student -> {}", student);
-		logger.info("passport -> {}", student.getPassport());
-	}
-	
-	@Test
-	@Transactional
-	public void retrievePassportAndAssociatedStudent() {
-		Passport passport = em.find(Passport.class, 40001L);
-		logger.info("passport -> {}", passport);
-		logger.info("student -> {}", passport.getStudent());
-	}
+    @Test
+    @Transactional
+    public void retrieveStudentAndPassportDetails() {
+        Student student = em.find(Student.class, 20001L);
+        logger.info("student -> {}", student);
+        logger.info("passport -> {}", student.getPassport());
+    }
+
+    @Test
+    @Transactional
+    public void retrievePassportAndAssociatedStudent() {
+        Passport passport = em.find(Passport.class, 40001L);
+        logger.info("passport -> {}", passport);
+        logger.info("student -> {}", passport.getStudent());
+    }
 }
 ```
 ---

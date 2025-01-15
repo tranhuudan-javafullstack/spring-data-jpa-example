@@ -106,26 +106,26 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.database.databasedemo.jdbc.PersonJbdcDao;
+import jdbc.com.huudan.database.databasedemo.PersonJbdcDao;
 
 @SpringBootApplication
 public class DatabaseDemoApplication implements CommandLineRunner {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	PersonJbdcDao dao;
+    @Autowired
+    PersonJbdcDao dao;
 
-	public static void main(String[] args) {
-		SpringApplication.run(DatabaseDemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DatabaseDemoApplication.class, args);
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
-		logger.info("All users -> {}", dao.findAll());
-		logger.info("User id 10001 -> {}", dao.findById(10001));
-		logger.info("Deleting 10002 -> No of Rows Deleted - {}", dao.deleteById(10002));
-	}
+    @Override
+    public void run(String... args) throws Exception {
+        logger.info("All users -> {}", dao.findAll());
+        logger.info("User id 10001 -> {}", dao.findById(10001));
+        logger.info("Deleting 10002 -> No of Rows Deleted - {}", dao.deleteById(10002));
+    }
 }
 ```
 ---
@@ -210,30 +210,30 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.in28minutes.database.databasedemo.entity.Person;
+import entity.com.huudan.database.databasedemo.Person;
 
 @Repository
 public class PersonJbdcDao {
 
-	@Autowired
-	JdbcTemplate jdbcTemplate;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
-	public List<Person> findAll() {
-		return jdbcTemplate.query("select * from person", new BeanPropertyRowMapper<Person>(Person.class));
-	}
+    public List<Person> findAll() {
+        return jdbcTemplate.query("select * from person", new BeanPropertyRowMapper<Person>(Person.class));
+    }
 
-	public Person findById(int id) {
-		return jdbcTemplate.queryForObject
-				("select * from person where id=?", new Object[] { id },
-				new BeanPropertyRowMapper<Person>(Person.class));
-	}
-	
-	public int deleteById(int id) {
-		return jdbcTemplate.update
-				("delete from person where id=?", id);
-	}
+    public Person findById(int id) {
+        return jdbcTemplate.queryForObject
+                ("select * from person where id=?", new Object[]{id},
+                        new BeanPropertyRowMapper<Person>(Person.class));
+    }
 
-	
+    public int deleteById(int id) {
+        return jdbcTemplate.update
+                ("delete from person where id=?", id);
+    }
+
+
 }
 ```
 ---

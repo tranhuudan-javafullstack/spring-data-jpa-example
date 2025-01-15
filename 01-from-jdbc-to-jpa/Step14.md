@@ -108,38 +108,38 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.database.databasedemo.entity.Person;
-import com.in28minutes.database.databasedemo.jdbc.PersonJbdcDao;
+import entity.com.huudan.database.databasedemo.Person;
+import jdbc.com.huudan.database.databasedemo.PersonJbdcDao;
 
 @SpringBootApplication
 public class DatabaseDemoApplication implements CommandLineRunner {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	PersonJbdcDao dao;
+    @Autowired
+    PersonJbdcDao dao;
 
-	public static void main(String[] args) {
-		SpringApplication.run(DatabaseDemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DatabaseDemoApplication.class, args);
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
-		
-		logger.info("All users -> {}", dao.findAll());
-		
-		logger.info("User id 10001 -> {}", dao.findById(10001));
-		
-		logger.info("Deleting 10002 -> No of Rows Deleted - {}", 
-				dao.deleteById(10002));
-		
-		logger.info("Inserting 10004 -> {}", 
-				dao.insert(new Person(10004, "Tara", "Berlin", new Date())));
-		
-		logger.info("Update 10003 -> {}", 
-				dao.update(new Person(10003, "Pieter", "Utrecht", new Date())));
-		
-	}
+    @Override
+    public void run(String... args) throws Exception {
+
+        logger.info("All users -> {}", dao.findAll());
+
+        logger.info("User id 10001 -> {}", dao.findById(10001));
+
+        logger.info("Deleting 10002 -> No of Rows Deleted - {}",
+                dao.deleteById(10002));
+
+        logger.info("Inserting 10004 -> {}",
+                dao.insert(new Person(10004, "Tara", "Berlin", new Date())));
+
+        logger.info("Update 10003 -> {}",
+                dao.update(new Person(10003, "Pieter", "Utrecht", new Date())));
+
+    }
 }
 ```
 ---
@@ -244,51 +244,51 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.in28minutes.database.databasedemo.entity.Person;
+import entity.com.huudan.database.databasedemo.Person;
 
 @Repository
 public class PersonJbdcDao {
 
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-	
-	static class PersonRowMapper implements RowMapper<Person>{
-		@Override
-		public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Person person = new Person();
-			person.setId(rs.getInt("id"));
-			person.setName(rs.getString("name"));
-			person.setLocation(rs.getString("location"));
-			person.setBirthDate(rs.getTimestamp("birth_date"));
-			return person;
-		}
-		
-	}
-	
-	public List<Person> findAll() {
-		return jdbcTemplate.query("select * from person", new PersonRowMapper());
-	}
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
-	public Person findById(int id) {
-		return jdbcTemplate.queryForObject("select * from person where id=?", new Object[] { id },
-				new BeanPropertyRowMapper<Person>(Person.class));
-	}
+    static class PersonRowMapper implements RowMapper<Person> {
+        @Override
+        public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Person person = new Person();
+            person.setId(rs.getInt("id"));
+            person.setName(rs.getString("name"));
+            person.setLocation(rs.getString("location"));
+            person.setBirthDate(rs.getTimestamp("birth_date"));
+            return person;
+        }
 
-	public int deleteById(int id) {
-		return jdbcTemplate.update("delete from person where id=?", id);
-	}
+    }
 
-	public int insert(Person person) {
+    public List<Person> findAll() {
+        return jdbcTemplate.query("select * from person", new PersonRowMapper());
+    }
+
+    public Person findById(int id) {
+        return jdbcTemplate.queryForObject("select * from person where id=?", new Object[]{id},
+                new BeanPropertyRowMapper<Person>(Person.class));
+    }
+
+    public int deleteById(int id) {
+        return jdbcTemplate.update("delete from person where id=?", id);
+    }
+
+    public int insert(Person person) {
         Object[] args = {person.getId(), person.getName(), person.getLocation(), new Timestamp(person.getBirthDate().getTime())};
 
         return jdbcTemplate.update("insert into person (id, name, location, birth_date) " + "values(?,  ?, ?, ?)", args);
-	}
+    }
 
-	public int update(Person person) {
-        Object[] args = { person.getName(), person.getLocation(), new Timestamp(person.getBirthDate().getTime()), person.getId() };
+    public int update(Person person) {
+        Object[] args = {person.getName(), person.getLocation(), new Timestamp(person.getBirthDate().getTime()), person.getId()};
 
         return jdbcTemplate.update("update person " + " set name = ?, location = ?, birth_date = ? " + " where id = ?", args);
-	}
+    }
 
 }
 ```
