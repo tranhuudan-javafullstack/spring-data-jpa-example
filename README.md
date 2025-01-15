@@ -1,28 +1,12 @@
 # Master JPA and Hibernate with Spring Boot
 
-[![Image](https://www.springboottutorial.com/images/Course-Master-Hibernate-and-JPA-with-Spring-Boot-in-100-Steps.png "Master Hibernate and JPA with Spring Boot in 100 Steps")](https://www.udemy.com/course/hibernate-jpa-tutorial-for-beginners-in-100-steps/)
-
-Master JPA using Hibernate as the implementation. Learn the basics of JPA - entities, relationships, entity manager, annotations, JPQL and Criteria API. Take a step into the advanced world of JPA - caching, performance tuning(n + 1 queries), mapping inheritance hierarchies. Get a peek into the magic of Spring Data JPA & Spring Data Rest.
-
-## Overview
-* [Installing Eclipse, Maven and Java](#installing-tools)
-* [Running Examples](#running-examples)
-* [Course Overview](#course-overview)
-  - [Course Steps](#step-list)
-  - [Expectations](#expectations)
-* [About in28Minutes](#about-in28minutes)
-  - [Our Beliefs](#our-beliefs)
-  - [Our Approach](#our-approach)
-  - [Find Us](#useful-links)
-  - [Other Courses](#other-courses)
-
 ### Introduction
 
 The Java Persistence API provides Java developers with an api for mapping java objects to relational data. In this course, you will learn about the JPA API, JPQL (Java Persistence query language), Java Persistence Criteria API and how you can perform ORM (Object Relational Mapping) with JPA. 
 
 Hibernate is the most popular implementation of JPA. It was the most popular ORM framework option before JPA emerged and it provides additional features on top of JPA. We will use Hibernate as the implementation in this course.
 
-### What You will learn
+### What 
 
 - You will learn the basics of JPA and Hibernate - Entities, Relationships, Inheritance Mappings and Annotations
 - You will understand approaches to querying data using JPA and Hibernate - JPQL, Criteria API and Native Queries
@@ -32,14 +16,7 @@ Hibernate is the most popular implementation of JPA. It was the most popular ORM
 - You will learn the basics of caching - First Level Cache and Second Level Cache with EhCache
 - You will understand the basics of Spring Data JPA and Spring Data REST
 
-### Requirements
-- You should have working knowledge of Java and Annotations. 
-- We will help you install Eclipse and get up and running with Maven and Tomcat.
-
-### Step Wise Details
-Refer each section
-
-
+ 
 ## Connecting to My SQL and Other Databases
 
 Spring Boot makes it easy to switch databases! Yeah really simple.
